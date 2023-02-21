@@ -2,12 +2,12 @@ FAIL = '\033[91m'
 ENDC = '\033[0m'
 OKGREEN = '\033[92m'
 
-menu = [(1, "Dodaj studenta"),
-        (2, "Usuń studenta"),
-        (3, "Wyświetl studentów"),
-        (4, "Zapisz do pliku"),
-        (5, "Wczytaj z pliku"),
-        (6, "Zakończ program")]
+menu = [(1, "Add student"),
+        (2, "Remove student"),
+        (3, "Show students"),
+        (4, "Save database to file"),
+        (5, "Read database from file"),
+        (6, "End program")]
 
 student_db = []
 
@@ -17,8 +17,32 @@ def show_menu(list_of_tuples):
         print(i[0], i[1])
 
 
-def add_student(local_db):
-    pass
+def add_student(user_list):
+    while True:
+        cancel = False
+        s_f_name = input("Enter first name: ")
+        s_l_name = input("Enter last name: ")
+        try:
+            s_index = int(input("Enter album number: "))
+            if user_list is not None:
+                for student in user_list:
+                    if s_index == student[2]:
+                        print(f"{FAIL}The student with the given album number is already in the database!{ENDC}")
+                        cancel = True
+            if cancel:
+                break
+        except ValueError:
+            print(f"{FAIL}Given value is not a number!{ENDC}")
+            break
+        try:
+            s_grade = float(input("Give rating: "))
+            if s_grade < 2 or s_grade > 5:
+                raise ValueError
+        except ValueError:
+            print(f"{FAIL}Given value is not a school grade!{ENDC}")
+            break
+        user_list.append((s_f_name.title(), s_l_name.title(), s_index, s_grade))
+        break
 
 
 def delete_student(local_db):
@@ -40,7 +64,7 @@ def open_db_from_file(patch, local_db):
 while True:
     show_menu(menu)
     try:
-        user_input = int(input("Wybierz opcję: "))
+        user_input = int(input("Choose option: "))
 
         if user_input == menu[0][0]:
             add_student(student_db)
@@ -55,9 +79,9 @@ while True:
             open_db_from_file('students.csv', student_db)
             print()
         elif user_input == menu[5][0]:
-            print(f"{OKGREEN}Zamykam program{ENDC}")
+            print(f"{OKGREEN}Closing program{ENDC}")
             break
         else:
             raise ValueError
     except ValueError:
-        print(f"{FAIL}Podałeś błędną opcję{ENDC}")
+        print(f"{FAIL}You entered the wrong option{ENDC}")
