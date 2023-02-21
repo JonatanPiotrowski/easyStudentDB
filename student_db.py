@@ -1,3 +1,5 @@
+import csv
+
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 OKGREEN = '\033[92m'
@@ -64,12 +66,25 @@ def sorted_students_list(local_db):
     pass
 
 
-def save_db_to_file(patch, local_db):
-    pass
+def save_db_to_file(patch, user_list):
+    with open(patch, 'w', newline='') as file:
+        writer = csv.writer(file)
+        for st in user_list:
+            writer.writerow(st)
+        print(f"{OKGREEN}Database has been saved to a file!{ENDC}")
 
 
-def open_db_from_file(patch, local_db):
-    pass
+def open_db_from_file(patch, user_list):
+    try:
+        with open(patch, 'r', newline='') as file:
+            reader = csv.reader(file)
+            for i in reader:
+                i[2] = int(i[2])
+                i[3] = float(i[3])
+                user_list.append(i)
+            print(f"{OKGREEN}Database successfully imported{ENDC}")
+    except FileNotFoundError:
+        print(f"{FAIL}File not found!{ENDC}")
 
 
 while True:
