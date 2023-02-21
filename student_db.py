@@ -1,3 +1,4 @@
+from prettytable import PrettyTable
 import csv
 
 FAIL = '\033[91m'
@@ -57,13 +58,77 @@ def delete_student(user_list):
                 print(f"{OKGREEN}Successfully removed student{ENDC}")
                 student_not_find = False
         if student_not_find:
-            print(f"{FAIL}student id {del_st_id} not found.{ENDC}")
+            print(f"{FAIL}Student id {del_st_id} not found.{ENDC}")
     except ValueError:
         print(f"{FAIL}Wrong value was given!{ENDC}")
 
 
-def sorted_students_list(local_db):
-    pass
+def show_students(user_list):
+    table = [['First name', 'Last name', 'Album number', 'Grade']]
+    tab = PrettyTable(table[0])
+    for student in user_list:
+        tab.add_row(student)
+    print(tab)
+
+
+def sort_by_id_asc(user_list):
+    user_list.sort(key=lambda x: x[2])
+    show_students(user_list)
+
+
+def sort_by_id_desc(user_list):
+    user_list.sort(key=lambda x: x[2], reverse=True)
+    show_students(user_list)
+
+
+def sort_by_grade_asc(user_list):
+    user_list.sort(key=lambda x: x[3])
+    show_students(user_list)
+
+
+def sort_by_grade_desc(user_list):
+    user_list.sort(key=lambda x: x[3], reverse=True)
+    show_students(user_list)
+
+
+def sort_by_last_name_asc(user_list):
+    user_list.sort(key=lambda x: x[1])
+    show_students(user_list)
+
+
+def sort_by_last_name_desc(user_list):
+    user_list.sort(key=lambda x: x[1], reverse=True)
+    show_students(user_list)
+
+
+def sorted_students_list(user_list):
+    print("1. Original sorting\n"
+          "2. Sort by album number (ascending)\n"
+          "3. Sort by album number (descending)\n"
+          "4. Sort by grade (ascending)\n"
+          "5. Sort by grade (descending)\n"
+          "6. Sort by last name (a - z)\n"
+          "7. Sort by last name (z - a)")
+    try:
+        user_input = int(input("How the list should be displayed: "))
+        if user_input == 1:
+            show_students(user_list)
+        elif user_input == 2:
+            sort_by_id_asc(user_list)
+        elif user_input == 3:
+            sort_by_id_desc(user_list)
+        elif user_input == 4:
+            sort_by_grade_asc(user_list)
+        elif user_input == 5:
+            sort_by_grade_desc(user_list)
+        elif user_input == 6:
+            sort_by_last_name_asc(user_list)
+        elif user_input == 7:
+            sort_by_last_name_desc(user_list)
+        else:
+            print(f"{FAIL}Wrong value was given!{ENDC}")
+    except ValueError:
+        print(f"{FAIL}Given value is not a number!{ENDC}")
 
 
 def save_db_to_file(patch, user_list):
