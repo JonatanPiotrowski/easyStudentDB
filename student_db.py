@@ -45,8 +45,19 @@ def add_student(user_list):
         break
 
 
-def delete_student(local_db):
-    pass
+def delete_student(user_list):
+    try:
+        student_not_find = True
+        del_st_id = int(input("Enter the number of the student's album to be deleted: "))
+        for student in user_list:
+            if del_st_id == student[2]:
+                user_list.remove(student)
+                print(f"{OKGREEN}Successfully removed student{ENDC}")
+                student_not_find = False
+        if student_not_find:
+            print(f"{FAIL}student id {del_st_id} not found.{ENDC}")
+    except ValueError:
+        print(f"{FAIL}Wrong value was given!{ENDC}")
 
 
 def sorted_students_list(local_db):
