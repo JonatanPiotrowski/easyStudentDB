@@ -45,6 +45,7 @@ def add_student(user_list):
             print(f"{FAIL}Given value is not a school grade!{ENDC}")
             break
         user_list.append((s_f_name.title(), s_l_name.title(), s_index, s_grade))
+        print(f"{OKGREEN}Student successfully added{ENDC}")
         break
 
 
